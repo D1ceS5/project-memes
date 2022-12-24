@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import axios from "axios";
+import './styles/index.css';
 
 const Instruction = () => {
     const [index, setIndex] = useState(0)

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Instruction from './Instruction';
 import axios from "axios";
+import './styles/index.css';
 const Body = () => {
 
     useEffect(() => {

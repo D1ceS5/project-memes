@@ -1,11 +1,16 @@
+import configData from "../config.json";
 import React, { useState, useEffect } from 'react';
+import { createTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import SvgIcon from '@mui/material/SvgIcon';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import axios from "axios";
-
+import { ThemeProvider } from "@mui/material/styles";
+import './styles/index.css';
 const NewPack = () => {
 
     const [pack, setPack] = useState({
@@ -23,7 +28,8 @@ const NewPack = () => {
     const [theme, setTheme] = useState('')
     const [editId, setEditId] = useState('')
     const [editText, setEditText] = useState('')
-
+    const [formType, setFormType] = useState('Both')
+    const muiTheme = createTheme(configData.THEME);
     useEffect(() => {
 
     }, [editId])
@@ -95,7 +101,7 @@ const NewPack = () => {
             }
         })
     }
-    function changeThemeDescription(e){
+    function changeThemeDescription(e) {
         setPack(prevPack => {
             return {
                 ...prevPack,
@@ -228,31 +234,33 @@ const NewPack = () => {
         </div>
     }
 
-    function createPack(e){
+    function createPack(e) {
         console.log(pack)
 
     }
-
+    function handleFormTypeChange(e) {
+        setFormType(e.target.value)
+    }
     return (
         <div className='main-cont' >
-            <Button className='add-btn orange' variant="contained" onClick={createPack} >CREATE</Button>
-            <div className='two-form-cont' >
+            <Button className='add-btn orange main-btn' variant="contained" onClick={createPack} >CREATE</Button>
+            <div className={formType == "Only memes"? 'two-form-cont hidden': 'two-form-cont'} >
                 <input type="text" placeholder="Enter theme name.." onChange={changeThemeName} className='inp' ></input>
                 <input type="text" placeholder="Enter theme description.." onChange={changeThemeDescription} className='inp' ></input>
                 <div className='theme-cont'>
                     {pack.theme.list.map(t => createThemeEl(t.text, t.id))}
-                    <div className='theme' >
-                        <textarea type="text" placeholder="Enter theme.." value={theme} onChange={handleThemeChange} maxLength={250} className='inp' ></textarea>
+                    <div className='theme pan-to-start' >
+                        <textarea type="text" placeholder="Enter theme.." value={theme} onChange={handleThemeChange} maxLength={250} className='inp lowed-margin' ></textarea>
                         <Button className='add-btn' variant="contained" onClick={addTheme} >ADD</Button>
                     </div>
                 </div>
             </div>
-            <div className='two-form-cont' >
+            <div className={formType == "Only theme"? 'two-form-cont hidden': 'two-form-cont'} >
                 <input type="text" placeholder="Enter memes name.." onChange={changeMemesName} className='inp' ></input>
                 <input type="text" placeholder="Enter memes description.." onChange={changeMemesDescription} className='inp' ></input>
                 <div className='theme-cont'>
                     {pack.memes.list.map((t) => createMemeEl(t.file, t.id))}
-                    <div className='theme' >
+                    <div className='theme pan-to-start' >
 
                         <Button className='add-btn full-height' variant="contained" component="label">
                             Upload
@@ -262,6 +270,22 @@ const NewPack = () => {
                 </div>
 
             </div>
+            <ThemeProvider theme={muiTheme}>
+                <ToggleButtonGroup
+
+                    color="primary"
+                    value={formType}
+                    exclusive
+                    onChange={handleFormTypeChange}
+                    aria-label="Type"
+                    className='toggle-group'
+                >
+                    
+                    <ToggleButton value="Only theme">Only theme</ToggleButton>
+                    <ToggleButton value="Both">Both</ToggleButton>
+                    <ToggleButton value="Only memes">Only memes</ToggleButton>
+                </ToggleButtonGroup>
+            </ThemeProvider>
 
         </div>
     );

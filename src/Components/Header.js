@@ -1,16 +1,17 @@
-import configData from "./config.json";
+import configData from "../config.json";
 import React, { useState, useEffect, useRef } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image'
 import empty from '../images/empty.png'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom'
-
+import SearchIcon from '@mui/icons-material/Search';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import './styles/header.css';
 
 function Header(props) {
 
@@ -54,13 +55,13 @@ function Header(props) {
   }
 
   function handleChange(event) {
-    
+
     setName(event?.target?.value)
 
   }
 
   function getName() {
-    
+
     return player && player.Name ? player.Name : 'Loading..'
   }
 
@@ -85,51 +86,82 @@ function Header(props) {
       console.log("Response", r.data.names)
       setImage(`${configData.SERVER_URL}/${r.data.names[0]}`);
     })
-    
+
   }
 
   return (
     <>
-      <Modal animation='true' show={profilePopUp} onHide={handleClose}>
-        <input type="file" id="file" ref={inputRef} onChange={handleChangeImage} style={{ display: "none" }} />
-        <Modal.Header closeButton>
-          <Modal.Title>Profile info</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='profcont'>
-          <Image rounded="true" className='profilePic' srcSet={image == empty ? (player ? player.Image : empty) : image} onClick={handleImageClick} ></Image>
-          <Form.Control
-            defaultValue={getName()}
-            onChange={handleChange}
-            type="text"
-            id="nicknameInput"
-            aria-describedby="passwordHelpBlock"
-          />
-        </Modal.Body>
-        <Modal.Footer >
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={saveChanges}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Navbar  className='nav' variant="dark">
-        <Container>
-          <Navbar.Brand href="/">MEMES</Navbar.Brand>
-          <Nav className="me-auto">
-            <Link className={window.location.pathname == '/games' ? 'navlink' : 'navlink'} to="/games">Find Game</Link>
-            <Link className={window.location.pathname == '/packs' ? 'navlink' : 'navlink'} to="/packs">Browse Packs</Link>
-            <Link className={window.location.pathname == '/create' ? 'navlink' : 'navlink'} to="/create">Create Pack</Link>
-          </Nav>
-          <div className='user' onClick={handleShow}>
-            <div id='nickname'> {getName()}</div>
-            <Image rounded="true" className='profilePic' srcSet={player ? player.Image : empty} onClick={handleShow} ></Image>
+      <ThemeProvider theme={configData.THEME}>
+        <Modal animation='true' show={profilePopUp} onHide={handleClose}>
+          <input type="file" id="file" ref={inputRef} onChange={handleChangeImage} style={{ display: "none" }} />
+          <Modal.Header closeButton>
+            <Modal.Title>Profile info</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className='profcont'>
+            <Image rounded="true" className='profilePic' srcSet={image == empty ? (player ? player.Image : empty) : image} onClick={handleImageClick} ></Image>
+            <Form.Control
+              defaultValue={getName()}
+              onChange={handleChange}
+              type="text"
+              id="nicknameInput"
+              aria-describedby="passwordHelpBlock"
+            />
+          </Modal.Body>
+          <Modal.Footer >
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={saveChanges}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <div className="navigation">
+          <div className="cont nav-container">
+
+            <div className="pc-menu" >
+              <li><Link style={{ fontSize: 36 }} to="/">MEMES</Link></li>
+              <li><Link to="/games"> Find Game</Link></li>
+              <li> <Link to="/packs">  Browse Packs</Link></li>
+              <li><Link to="/create">  Create Pack</Link></li>
+            </div>
+            <input className="checkbox" type="checkbox" name="" id="" />
+            <div className="hamburger-lines">
+              <span className="line line1"></span>
+              <span className="line line2"></span>
+              <span className="line line3"></span>
+            </div>
+            <div className="logo">
+              <div className='user' onClick={handleShow}>
+                <div id='nickname'> {getName()}</div>
+                <Image rounded="true" className='profilePic' srcSet={player ? player.Image : empty} onClick={handleShow} ></Image>
+              </div>
+            </div>
+            <div className="menu-items">
+              <li><Link style={{ fontSize: 36 }} to="/">MEMES</Link></li>
+              <li><Link to="/games"> Find Game</Link></li>
+              <li> <Link to="/packs">  Browse Packs</Link></li>
+              <li><Link to="/create">  Create Pack</Link></li>
+            </div>
           </div>
+        </div>
 
+        {/* <Container>
+            <Navbar.Brand href="/">MEMES</Navbar.Brand>
+            <Nav className="me-auto">
+              <Link className={window.location.pathname == '/games' ? 'navlink' : 'navlink'} to="/games">Find Game</Link>
+              <Link className={window.location.pathname == '/packs' ? 'navlink' : 'navlink'} to="/packs">Browse Packs</Link>
+              <Link className={window.location.pathname == '/create' ? 'navlink' : 'navlink'} to="/create">Create Pack</Link>
+            </Nav>
+            <div className='user' onClick={handleShow}>
+              <div id='nickname'> {getName()}</div>
+              <Image rounded="true" className='profilePic' srcSet={player ? player.Image : empty} onClick={handleShow} ></Image>
+            </div>
+            <MenuIcon fontSize="large" id="toggler" color="secondary"></MenuIcon>
 
-        </Container>
-      </Navbar>
+          </Container> */}
+      </ThemeProvider>
+
     </>
   );
 }
