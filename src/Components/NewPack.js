@@ -11,9 +11,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import axios from "axios";
 import { ThemeProvider } from "@mui/material/styles";
 import './styles/index.css';
+import { ImageList, ImageListItem } from "@mui/material";
 const NewPack = () => {
-
-    const [pack, setPack] = useState({
+    let defaultPack = {
         theme: {
             name: '',
             description: '',
@@ -24,7 +24,8 @@ const NewPack = () => {
             description: '',
             list: []
         }
-    })
+    }
+    const [pack, setPack] = useState(defaultPack)
     const [theme, setTheme] = useState('')
     const [editId, setEditId] = useState('')
     const [editText, setEditText] = useState('')
@@ -180,7 +181,8 @@ const NewPack = () => {
                 let oldList = pack.memes.list
                 oldList.push({
                     id: guid(),
-                    file: r
+                    file: r,
+                    toUpload: f
                 })
                 setPack(prevPack => {
                     return {
@@ -222,7 +224,7 @@ const NewPack = () => {
         })
     }
     function createMemeEl(file, key) {
-        return <div className='theme transparent meme' key={'item' + key} >
+        return <ImageListItem key={'item' + key}>
             <div className='icons' >
 
                 <div className='icons-cont' onClick={deleteMeme} data-key={key}>
@@ -230,13 +232,40 @@ const NewPack = () => {
                 </div>
 
             </div>
-            <img src={file}></img>
-        </div>
+            <img
+                src={file}
+                srcSet={file}
+                alt={key}
+                loading="lazy"
+            />
+        </ImageListItem>
     }
 
     function createPack(e) {
-        console.log(pack)
-
+        console.log(pack.memes.list.map(m => m.toUpload))
+        const formData = new FormData();
+        pack.memes.list.forEach(m => {
+            formData.append("files", m.toUpload)
+        })
+        axios({
+            method: "post",
+            url: `${configData.SERVER_URL}/upload_files`,
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" },
+        }).then((r) => {
+            let body = pack;
+            body.memes.list = r.data.names.map(n => { return { image: n } })
+            axios({
+                method: "post",
+                url: `${configData.SERVER_URL}/addpack`,
+                data: JSON.stringify(body),
+                headers: { "Content-Type": "application/json" }
+            })
+                .then((response) => {
+                    console.log("RESPONSE", response)
+                    setPack(defaultPack)
+                })
+        })
     }
     function handleFormTypeChange(e) {
         setFormType(e.target.value)
@@ -244,9 +273,9 @@ const NewPack = () => {
     return (
         <div className='main-cont' >
             <Button className='add-btn orange main-btn' variant="contained" onClick={createPack} >CREATE</Button>
-            <div className={formType == "Only memes"? 'two-form-cont hidden': 'two-form-cont'} >
-                <input type="text" placeholder="Enter theme name.." onChange={changeThemeName} className='inp' ></input>
-                <input type="text" placeholder="Enter theme description.." onChange={changeThemeDescription} className='inp' ></input>
+            <div className={formType == "Only memes" ? 'two-form-cont hidden' : 'two-form-cont'} >
+                <input type="text" placeholder="Enter theme name.." value={pack.theme.name} onChange={changeThemeName} className='inp' ></input>
+                <input type="text" placeholder="Enter theme description.." value={pack.theme.description} onChange={changeThemeDescription} className='inp' ></input>
                 <div className='theme-cont'>
                     {pack.theme.list.map(t => createThemeEl(t.text, t.id))}
                     <div className='theme pan-to-start' >
@@ -255,20 +284,20 @@ const NewPack = () => {
                     </div>
                 </div>
             </div>
-            <div className={formType == "Only theme"? 'two-form-cont hidden': 'two-form-cont'} >
-                <input type="text" placeholder="Enter memes name.." onChange={changeMemesName} className='inp' ></input>
-                <input type="text" placeholder="Enter memes description.." onChange={changeMemesDescription} className='inp' ></input>
-                <div className='theme-cont'>
+            <div className={formType == "Only theme" ? 'two-form-cont hidden' : 'two-form-cont'} >
+                <input type="text" placeholder="Enter memes name.." value={pack.memes.name} onChange={changeMemesName} className='inp' ></input>
+                <input type="text" placeholder="Enter memes description.." value={pack.memes.description} onChange={changeMemesDescription} className='inp' ></input>
+                <ImageList variant="masonry" cols={3} gap={8}  >
                     {pack.memes.list.map((t) => createMemeEl(t.file, t.id))}
-                    <div className='theme pan-to-start' >
 
-                        <Button className='add-btn full-height' variant="contained" component="label">
-                            Upload
-                            <input hidden id="file" accept="image/*" onChange={handleImageChange} multiple type="file" />
-                        </Button>
-                    </div>
+                </ImageList>
+                <div className='theme pan-to-start' >
+
+                    <Button className='add-btn full-height' variant="contained" component="label">
+                        Upload
+                        <input hidden id="file" accept="image/*" onChange={handleImageChange} multiple type="file" />
+                    </Button>
                 </div>
-
             </div>
             <ThemeProvider theme={muiTheme}>
                 <ToggleButtonGroup
@@ -280,7 +309,7 @@ const NewPack = () => {
                     aria-label="Type"
                     className='toggle-group'
                 >
-                    
+
                     <ToggleButton value="Only theme">Only theme</ToggleButton>
                     <ToggleButton value="Both">Both</ToggleButton>
                     <ToggleButton value="Only memes">Only memes</ToggleButton>

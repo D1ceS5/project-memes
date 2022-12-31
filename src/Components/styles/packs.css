@@ -1,0 +1,14 @@
+.packs-cont {
+    width: 100%;
+
+}
+
+.font {
+    font-family: 'Coiny' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 20px !important;
+}
+.dark-back{
+    background-color: #C25700 !important;
+}

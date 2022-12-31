@@ -4,6 +4,7 @@ import axios from "axios";
 import configData from "../config.json";
 import CreateForm from './CreateForm';
 import NewPack from './NewPack';
+import PackList from './PackList';
 import {
     Route, Routes,
 } from 'react-router-dom'
@@ -28,6 +29,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<CreateForm />} />
                 <Route path="/create" element={<NewPack/>} />
+                <Route path="/packs" element={<PackList/>} />
             </Routes>
 
         </>

@@ -4,10 +4,17 @@
         "palette": {
           "type": "dark",
           "primary": {
-            "main": "#C25700"
+            "main": "#C25700",
+            "contrastText": "#FFFFFF"
+          },
+          "text":{
+            "primary": "#FFFFFF",
+            "secondary": "#FFFFFF",
+            "disabled": "#FFFFFF"
           },
           "secondary": {
-            "main": "#fff"
+            "main": "#fff",
+            "contrastText": "#FFF"
           },
           "background": {
             "default": "#151515"
