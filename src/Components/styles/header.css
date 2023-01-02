@@ -112,6 +112,8 @@ a:hover{
   padding: 15px;
 }
 .navigation .menu-items {
+  z-index: 5;
+  position: relative;
   padding-top: 120px;
   box-shadow: inset 0 0 2000px #c2570077;
   background-color: #C25700;
@@ -129,12 +131,14 @@ a:hover{
 
 @media screen and (max-width: 1000px) {
   .navigation .menu-items {
+    z-index: 5;
     width: 60%;
     display: none !important;
   }
 }
 @media screen and (max-width: 800px) {
   .navigation .menu-items {
+    z-index: 5;
     width: 90%;
     display: flex !important;
   }
@@ -149,6 +153,7 @@ a:hover{
   }
 }
 .navigation .menu-items li {
+  z-index: 5;
   margin-bottom: 1.2rem;
   font-size: 1.5rem;
   font-weight: 500;

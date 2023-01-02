@@ -23,13 +23,14 @@ const App = () => {
     },[loading])
 
     
+    console.log("MAIN USER",player.UserID)
     return (
         <>
             <Header data={player} ></Header>
             <Routes>
                 <Route path="/" element={<CreateForm />} />
                 <Route path="/create" element={<NewPack/>} />
-                <Route path="/packs" element={<PackList/>} />
+                <Route path="/packs" element={<PackList user={player.UserID} />} />
             </Routes>
 
         </>
