@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './styles/index.css';
+import './Instruction.scss';
 
 const Instruction = () => {
     const [index, setIndex] = useState(0)
@@ -20,7 +20,7 @@ const Instruction = () => {
         setTimer(timerNew)
         
         
-    }, [index])
+    }, [timer,index])
 
 
     function handleClick(e) {
@@ -30,15 +30,15 @@ const Instruction = () => {
     return (
         <div className='instruction-cont' >
             <h3 className='form-title white' >GAME RULES</h3>
-            <img src={instructions[index % 5].image} ></img>
+            <img src={instructions[index % 5].image}  alt="Instruction"/>
             <div className='instruction' >{instructions[index % 5].text}</div>
 
             <div className='dots' >
-                <div id='0' className={index % 5 == 0 ? 'dot active' : 'dot'} onClick={handleClick} ></div>
-                <div id='1' className={index % 5 == 1 ? 'dot active' : 'dot'} onClick={handleClick} ></div>
-                <div id='2' className={index % 5 == 2 ? 'dot active' : 'dot'} onClick={handleClick}></div>
-                <div id='3' className={index % 5 == 3 ? 'dot active' : 'dot'} onClick={handleClick}></div>
-                <div id='4' className={index % 5 == 4 ? 'dot active' : 'dot'} onClick={handleClick}></div>
+                <div id='0' className={index % 5 === 0 ? 'dot active' : 'dot'} onClick={handleClick} ></div>
+                <div id='1' className={index % 5 === 1 ? 'dot active' : 'dot'} onClick={handleClick} ></div>
+                <div id='2' className={index % 5 === 2 ? 'dot active' : 'dot'} onClick={handleClick}></div>
+                <div id='3' className={index % 5 === 3 ? 'dot active' : 'dot'} onClick={handleClick}></div>
+                <div id='4' className={index % 5 === 4 ? 'dot active' : 'dot'} onClick={handleClick}></div>
             </div>
         </div>
     );

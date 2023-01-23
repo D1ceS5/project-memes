@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import './styles/packs.css';
+import './ItemList.scss';
 
-import Item from './Item';
+import Item from '../Item/Item';
 
 const ItemList = (props) => {
-
-    
-
-   
 
     return (
         <>
@@ -17,5 +13,4 @@ const ItemList = (props) => {
 
     );
 }
-
 export default ItemList;

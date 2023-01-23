@@ -1,24 +1,20 @@
 {
-    "SERVER_URL": "http://127.0.0.1:7000",
-    "THEME": {
-        "palette": {
-          "type": "dark",
-          "primary": {
-            "main": "#C25700",
-            "contrastText": "#FFFFFF"
-          },
-          "text":{
-            "primary": "#FFFFFF",
-            "secondary": "#FFFFFF",
-            "disabled": "#FFFFFF"
-          },
-          "secondary": {
-            "main": "#fff",
-            "contrastText": "#FFF"
-          },
-          "background": {
-            "default": "#151515"
-          }
-        }
+  "SERVER_URL": "http://127.0.0.1:7000",
+  "THEME": {
+    "palette": {
+      "type": "dark",
+      "primary": {
+        "main": "#C25700"
+      },
+      "secondary": {
+        "main": "#f50057"
+      },
+      "background": {
+        "default": "#151515"
+      },
+      "test": {
+        "primary": "#fff"
       }
+    }
+  }
 }

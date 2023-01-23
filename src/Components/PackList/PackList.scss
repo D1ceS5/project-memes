@@ -1,0 +1,27 @@
+.packs-cont {
+  width: 100%;
+  background-color: #151515;
+  z-index: 0;
+}
+
+.filters-cont {
+  background-color: #151515;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 0;
+}
+.list-cont {
+
+  margin: 30px;
+  align-items: center;
+  position: relative;
+  display: flex;
+  z-index: 0;
+  width: 80%;
+  flex-direction: column;
+  -webkit-box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.507);
+}

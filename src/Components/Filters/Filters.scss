@@ -1,0 +1,36 @@
+.select {
+  color: rgba(235, 235, 235, 1);
+  min-width: 280px;
+  margin: 10px;
+  background-color: transparent;
+  outline: none;
+  width: 30%;
+  border: 0 solid white;
+  font-family: 'Baloo 2', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.inp {
+  color: rgba(235, 235, 235, 1);
+  min-width: 280px;
+  margin: 10px;
+  background-color: transparent;
+  outline: none;
+  width: 30%;
+  border: 0;
+  border-bottom: 3px solid white;
+  font-family: 'Baloo 2', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  border-radius: 4px;
+}
+.inp:hover{
+  background-color: #1515159c !important;
+}
+.option {
+  border: 0;
+  background-color: #151515;
+}

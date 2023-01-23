@@ -1,17 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Header from './Header/Header';
-import axios from "axios";
-import configData from "../config.json";
-import CreatePage from './CreatePage/CreatePage';
-import NewPack from './NewPack/NewPack';
-import PackList from './PackList/PackList';
-import {
-    Route, Routes,
-} from 'react-router-dom'
+import React from 'react';
+
+import './Filters.scss';
 
 import { ThemeProvider, createTheme, } from "@mui/material/styles";
-import { GlobalStyles } from '@mui/material';
-const inputGlobalStyles = <GlobalStyles styles={{ "*": { color: "#FFF !important" } }} />;
 const themeOptions = {
     palette: {
         type: 'dark',
@@ -34,7 +25,7 @@ const themeOptions = {
             disabled: "#FFF",
             disabledBackground: "#FFF",
         }
-        
+
     },
     text: {
         primary: 'rgba(255,255,255,0.87)'
@@ -65,34 +56,29 @@ const themeOptions = {
     }
 };
 const theme = createTheme(themeOptions)
+const Filters = (props) => {
 
-const App = () => {
-    const [player, setPlayer] = useState(false)
-    const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        if (player) return
-        setLoading(true)
-        axios.get(`${configData.SERVER_URL}/getOrCreateUser`).then((response) => {
-            setPlayer(response.data);
-            setLoading(false)
-        });
+    function searchChange(e) {
+        props.changeSearch(e)
+    }
+    function sortChange(e) {
+        props.changeSort(e)
+    }
 
-    }, [player,loading])
-
-
-    console.log("MAIN USER", player.UserID)
     return (
         <ThemeProvider theme={theme}>
-            {inputGlobalStyles}
-            <Header data={player} ></Header>
-            <Routes>
-                <Route path="/" element={<CreatePage />} />
-                <Route path="/create" element={<NewPack />} />
-                <Route path="/packs" element={<PackList user={player.UserID} />} />
-            </Routes>
-
+            <>
+                <input type="text" placeholder='Search' className='inp' onChange={searchChange} />
+                <select placeholder="Sort by" onChange={sortChange} className='select inp'>
+                    <option  className='option' value={null}>Sort by</option>
+                    <option  className='option' value={JSON.stringify({field:"Likes",type:"ASC"})}>Likes (Low to high)</option>
+                    <option  className='option' value={JSON.stringify({field:"Likes",type:"DESC"})}>Likes (High to low)</option>
+                    <option  className='option' value={JSON.stringify({field:"Name",type:"ASC"})}>Name (A-Z)</option>
+                    <option  className='option' value={JSON.stringify({field:"Name",type:"DESC"})}>Name (Z-A)</option>
+                </select>
+            </ >
         </ThemeProvider>
     );
 }
 
-export default App;
+export default Filters;

@@ -1,4 +1,4 @@
-import configData from "../config.json";
+import configData from "../../config.json";
 import React, { useState, useEffect } from 'react';
 import { createTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -10,7 +10,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import axios from "axios";
 import { ThemeProvider } from "@mui/material/styles";
-import './styles/index.css';
+import './NewPack.scss';
 import { ImageList, ImageListItem } from "@mui/material";
 const NewPack = () => {
     let defaultPack = {
@@ -49,7 +49,7 @@ const NewPack = () => {
         setTheme(v);
     }
 
-    function addTheme(e) {
+    function addTheme() {
         if (theme) {
             let oldList = pack.theme.list
             oldList.push({
@@ -118,7 +118,7 @@ const NewPack = () => {
         let id = e.target.parentNode.getAttribute("data-key") || e.target.getAttribute("data-key")
         if (id) {
             let oldList = pack.theme.list
-            oldList.splice(oldList.findIndex(e => e.id == id), 1)
+            oldList.splice(oldList.findIndex(e => e.id === id), 1)
             setPack(prevPack => {
                 return {
                     ...prevPack,
@@ -134,7 +134,7 @@ const NewPack = () => {
         let id = e.target.parentNode.getAttribute("data-key") || e.target.getAttribute("data-key")
         if (id) {
             let oldList = pack.memes.list
-            oldList.splice(oldList.findIndex(e => e.id == id), 1)
+            oldList.splice(oldList.findIndex(e => e.id === id), 1)
             setPack(prevPack => {
                 return {
                     ...prevPack,
@@ -153,14 +153,14 @@ const NewPack = () => {
         let id = e.target.parentNode.getAttribute("data-key") || e.target.getAttribute("data-key")
         if (id) {
             setEditId(id)
-            setEditText(pack.theme.list[pack.theme.list.findIndex(e => e.id == id)].text)
+            setEditText(pack.theme.list[pack.theme.list.findIndex(e => e.id === id)].text)
         }
     }
     function confirmTheme(e) {
         let id = e.target.parentNode.getAttribute("data-key") || e.target.getAttribute("data-key")
         if (editText && id) {
             let oldList = pack.theme.list
-            oldList[oldList.findIndex(e => e.id == id)].text = editText
+            oldList[oldList.findIndex(e => e.id === id)].text = editText
             setPack(prevPack => {
                 return {
                     ...prevPack,
@@ -199,10 +199,10 @@ const NewPack = () => {
     function createThemeEl(text, key) {
         return <div className='theme' key={'item' + key} >
             <div className='icons' >
-                <div className={key == editId ? 'icons-cont ' : 'icons-cont hidden'} onClick={confirmTheme} data-key={key} >
+                <div className={key === editId ? 'icons-cont ' : 'icons-cont hidden'} onClick={confirmTheme} data-key={key} >
                     <SvgIcon data-key={key} children={<CheckIcon data-key={key} />}></SvgIcon>
                 </div>
-                <div className={key == editId ? 'icons-cont hidden' : 'icons-cont '} onClick={editTheme} data-key={key} >
+                <div className={key === editId ? 'icons-cont hidden' : 'icons-cont '} onClick={editTheme} data-key={key} >
                     <SvgIcon data-key={key} children={<EditIcon data-key={key} />}></SvgIcon>
                 </div>
                 <div className='icons-cont' onClick={deleteTheme} data-key={key}>
@@ -210,8 +210,8 @@ const NewPack = () => {
                 </div>
 
             </div>
-            <textarea type="text" placeholder="Enter memes name.." value={editText} onChange={editChange} className={key == editId ? 'inp' : 'inp hidden'} ></textarea>
-            <div className={key == editId ? 'texttheme hidden' : 'texttheme'}>{text}</div>
+            <textarea  placeholder="Enter memes name.." value={editText} onChange={editChange} className={key === editId ? 'inp' : 'inp hidden'} ></textarea>
+            <div className={key === editId ? 'texttheme hidden' : 'texttheme'}>{text}</div>
         </div>
     }
     function getBase64(file) {
@@ -241,7 +241,7 @@ const NewPack = () => {
         </ImageListItem>
     }
 
-    function createPack(e) {
+    function createPack() {
         console.log(pack.memes.list.map(m => m.toUpload))
         const formData = new FormData();
         pack.memes.list.forEach(m => {
@@ -271,20 +271,20 @@ const NewPack = () => {
         setFormType(e.target.value)
     }
     return (
-        <div className='main-cont' >
+        <div className='new-pack-cont' >
             <Button className='add-btn orange main-btn' variant="contained" onClick={createPack} >CREATE</Button>
-            <div className={formType == "Only memes" ? 'two-form-cont hidden' : 'two-form-cont'} >
+            <div className={formType === "Only memes" ? 'two-form-cont hidden' : 'two-form-cont'} >
                 <input type="text" placeholder="Enter theme name.." value={pack.theme.name} onChange={changeThemeName} className='inp' ></input>
                 <input type="text" placeholder="Enter theme description.." value={pack.theme.description} onChange={changeThemeDescription} className='inp' ></input>
                 <div className='theme-cont'>
                     {pack.theme.list.map(t => createThemeEl(t.text, t.id))}
                     <div className='theme pan-to-start' >
-                        <textarea type="text" placeholder="Enter theme.." value={theme} onChange={handleThemeChange} maxLength={250} className='inp lowed-margin' ></textarea>
+                        <textarea  placeholder="Enter theme.." value={theme} onChange={handleThemeChange} maxLength={250} className='inp lowed-margin' ></textarea>
                         <Button className='add-btn' variant="contained" onClick={addTheme} >ADD</Button>
                     </div>
                 </div>
             </div>
-            <div className={formType == "Only theme" ? 'two-form-cont hidden' : 'two-form-cont'} >
+            <div className={formType === "Only theme" ? 'two-form-cont hidden' : 'two-form-cont'} >
                 <input type="text" placeholder="Enter memes name.." value={pack.memes.name} onChange={changeMemesName} className='inp' ></input>
                 <input type="text" placeholder="Enter memes description.." value={pack.memes.description} onChange={changeMemesDescription} className='inp' ></input>
                 <ImageList variant="masonry" cols={3} gap={8}  >
