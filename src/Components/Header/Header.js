@@ -11,7 +11,7 @@ import axios from "axios";
 import './Header.scss';
 
 function Header(props) {
-
+  console.log(empty)
   const inputRef = useRef(null);
   const [name, setName] = useState(false)
   const [image, setImage] = useState(empty)
@@ -96,7 +96,7 @@ function Header(props) {
           </Modal.Header>
           <Modal.Body className="profileContainer">
             <div className="inputCont">
-              <Image rounded="true" className='profilePic' srcSet={image === empty ? (player ? player.Image : empty) : image} onClick={handleImageClick} ></Image>
+              <Image rounded="true" className='profilePic' srcSet={image === empty ? (player && player.Image ? player.Image : empty) : image} onClick={handleImageClick} ></Image>
               <Form.Control
                   defaultValue={getName()}
                   onChange={handleChange}
@@ -129,7 +129,7 @@ function Header(props) {
             <div className="logo">
               <div className='user' onClick={handleShow}>
                 <div id='nickname'> {getName()}</div>
-                <img  className='profilePic' srcSet={player ? player.Image : empty} onClick={handleShow}  alt="profile pic"/>
+                <img  className='profilePic' src={player && player.Image ? player.Image : empty} onClick={handleShow}  alt="profile pic"/>
               </div>
             </div>
             <input className="checkbox" type="checkbox" name="" id="" />

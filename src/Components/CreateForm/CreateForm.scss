@@ -1,4 +1,4 @@
-@import '../styles/index.scss';
+@import '../../styles/index.scss';
 
 .form-cont {
   border-radius: 4px;
@@ -31,7 +31,29 @@
     width: 100% !important;
   }
 }
+.config-create-cont{
+  padding: 10px 0;
+  width: 100%;
+}
+.config-create-header{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: "Baloo 2", serif;
+  text-align: center;
 
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+}
+.config-create-header a{
+  border-radius: 4px;
+  font-family: "Coiny", serif;
+    text-decoration: none !important;
+    background: $primary-light;
+  padding: 10px 10px;
+  margin: 10px 0;
+}
 .form-cont input {
 
   padding: 10px;
@@ -41,7 +63,7 @@
   background-color: $primary-dark;
   width: 100%;
   border: 0;
-  border-bottom: 1px solid white;
+  border-bottom: 3px solid white;
   font-family: 'Baloo 2', serif;
   font-style: normal;
   font-weight: 400;
@@ -106,4 +128,7 @@ input:focus {
   border-radius: 4px;
   margin-top: calc(15%);
   border: 0;
+  &:hover{
+    background: $primary-light-hover !important;
+  }
 }

@@ -1,0 +1,68 @@
+@import '../../styles/index.scss';
+
+.config-cont{
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+.config-header{
+  font-family: "Coiny", serif;
+  text-align: center;
+  padding: 10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: calc(20px + 6 * (100vw - 320px) / 680);
+}
+.config-chip{
+  font-family: 'Baloo 2', serif !important;
+  background: $primary-light !important;
+  border: 0px solid white !important;
+  margin: 0 3px !important;
+}
+.MuiButtonBase-root.MuiChip-root:hover{
+  background: $primary-light-hover !important;
+}
+.theme-config{
+  overflow-x: scroll;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.theme-config::-webkit-scrollbar-track {
+
+  border-radius: 10px;
+  background-color: $primary-dark;
+}
+
+.theme-config::-webkit-scrollbar {
+  height: 10px;
+  background-color: $primary-dark;
+}
+.theme-config::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: gray;
+}
+.memes-config{
+  overflow-x: scroll;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.memes-config::-webkit-scrollbar-track {
+
+  border-radius: 10px;
+  background-color: $primary-dark;
+}
+.memes-config::-webkit-scrollbar {
+  height: 10px;
+  background-color: $primary-dark;
+}
+.memes-config::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: gray;
+}

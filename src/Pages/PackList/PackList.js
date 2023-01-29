@@ -4,8 +4,11 @@ import axios from "axios";
 import configData from "../../config.json";
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
-import ItemList from '../ItemList/ItemList';
-import Filters from '../Filters/Filters'
+import ItemList from '../../Components/ItemList/ItemList';
+import Filters from '../../Components/Filters/Filters'
+import MemesPreview from "../../Components/MemesPreview/MemesPreview";
+import ThemePreview from "../../Components/ThemePreview/ThemePreview";
+import GameConfig from "../../Components/GameConfig/GameConfig";
 
 const PackList = (props) => {
 
@@ -21,6 +24,7 @@ const PackList = (props) => {
     const [tab, setTab] = useState(0)
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState(false);
+    const [preview,setPreview] = useState({type: false, data: false})
     const [page, setPage] = useState()
     useEffect(() => {
         console.log(themes.loaded, memes.loaded)
@@ -57,6 +61,28 @@ const PackList = (props) => {
 
     }, [memes.loaded,search,sort,themes.loaded,loading])
 
+
+    function changeDataPreview(data,type){
+        console.log("Changing preview",data)
+        setPreview((prevState)=>{
+            let isTheme = tab === 0
+            return {
+                ...prevState,
+                type: type? type : (isTheme? "theme" : "meme"),
+                data: data
+            }
+        })
+        console.log(preview)
+    }
+    function closePreview(){
+        setPreview((prevState)=>{
+            return {
+                ...prevState,
+                data: false,
+                type: false
+            }
+        })
+    }
     let timer
     function changeSearch(e) {
         if (timer) clearTimeout(timer)
@@ -108,10 +134,10 @@ const PackList = (props) => {
         console.log("PACK LIST USER", props.user);
         switch (tab) {
             case 0: {
-                return <ItemList user={props.user} type="themes" list={themes.list.map(e => { return { ...e, id: e.ThemeID } })} />
+                return <ItemList user={props.user} type="themes" changeData={changeDataPreview} list={themes.list.map(e => { return { ...e, id: e.ThemeID } })} />
             }
             case 1: {
-                return <ItemList user={props.user} type="memes" list={memes.list.map(e => { return { ...e, id: e.MemeID } })} />
+                return <ItemList user={props.user} type="memes" changeData={changeDataPreview} list={memes.list.map(e => { return { ...e, id: e.MemeID } })} />
             }
             default: {
                 return <></>
@@ -119,8 +145,14 @@ const PackList = (props) => {
         }
     }
 
+
+
+    let themeOpen = Boolean(preview.data) && preview.type === "theme"
+    let memeOpen = Boolean(preview.data) && preview.type === "meme"
     return (
         <>
+            <MemesPreview open={memeOpen} images={preview.data} memesClose={closePreview} />
+            <ThemePreview open={themeOpen} text={preview.data} themesClose={closePreview} />
             <div className='list-cont'>
                 <div className='packs-cont' >
                     <Tabs value={tab} variant="fullWidth" onChange={tabChange} centered>
@@ -131,6 +163,10 @@ const PackList = (props) => {
                 </div>
                 <div className='filters-cont' >
                     <Filters changeSearch={changeSearch} changeSort={changeSort}  ></Filters>
+                </div>
+                <div className='copy-list' >
+                    <div className='config-tutor'>Under this text, the config of your future game will be located, to select themes and memes for yourself, use the lists of packs that you can add to your config by clicking on the button with the plus icon </div>
+                    <GameConfig changePreview={changeDataPreview} />
                 </div>
                 <div className='packs-cont' >
                     {renderCurrentTab()}

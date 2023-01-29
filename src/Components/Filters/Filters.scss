@@ -11,7 +11,14 @@
   font-weight: 400;
   font-size: 20px;
 }
-
+@media screen and (max-width: 800px) {
+  .inp{
+    width: 100% !important;
+  }
+  .select{
+    width: 100% !important;
+  }
+}
 .inp {
   color: rgba(235, 235, 235, 1);
   min-width: 280px;
@@ -26,6 +33,9 @@
   font-weight: 400;
   font-size: 20px;
   border-radius: 4px;
+}
+.option:checked {
+  background-color: #C25700;
 }
 .inp:hover{
   background-color: #1515159c !important;

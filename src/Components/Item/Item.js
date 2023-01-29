@@ -7,10 +7,11 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Tooltip, Snackbar, Alert } from '@mui/material';
+import { Tooltip } from '@mui/material';
+import {guid} from "../../Utility/utils";
 
 const Item = (props) => {
     let data = props.data
@@ -22,7 +23,7 @@ const Item = (props) => {
         type: ''
     })
     const [loading, setLoading] = useState(false)
-    const [copyShown, setCopyShown] = useState(false)
+
     useEffect(() => {
 
         if (likeList.loaded && likeList.type === props.type) return
@@ -50,6 +51,9 @@ const Item = (props) => {
 
 
     }, [data.id,likeList, loading, props.type])
+
+
+
     function getLikeIcon(id) {
 
         if (likeList != null && !loading) {
@@ -78,23 +82,51 @@ const Item = (props) => {
     }
     function clickCopy(e) {
         e.stopPropagation();
-        let tag = e.target.parentNode.getAttribute("data-tag") || e.target.getAttribute("data-tag")
-        navigator.clipboard.writeText("#" + tag)
-        setCopyShown(true)
+        let isMeme = Boolean(data.MemeID);
+        let configText = localStorage.getItem("gameConfig")
+        let gameConfig
+        if(!configText) return createConfig()
+        try{
+            gameConfig = JSON.parse(configText)
+            if(isMeme){
+                if(!gameConfig.memes.some(gc=>gc.Hashtag === data.Hashtag))
+                gameConfig.memes.push(data)
+            }
+            else{
+                if(!gameConfig.themes.some(gc=>gc.Hashtag === data.Hashtag))
+                gameConfig.themes.push(data)
+            }
+            localStorage.setItem("gameConfig",JSON.stringify(gameConfig))
+        }catch(e){
+            return createConfig()
+        }
+
+        function createConfig(){
+            if(isMeme){
+                gameConfig = {
+                    memes: [data],
+                    themes: []
+                }
+                localStorage.setItem('gameConfig',JSON.stringify(gameConfig))
+            }
+            else{
+                gameConfig = {
+                    memes: [],
+                    themes: [data]
+                }
+                localStorage.setItem('gameConfig',JSON.stringify(gameConfig))
+            }
+        }
+
     }
     function previewClick(e) {
         e.stopPropagation();
-    }
-    function handleCopyClose() {
-        setCopyShown(false)
+        props.changeData(data.MemeID?JSON.parse(data.List).map(e=>`${configData.SERVER_URL}/${e.image}`):JSON.parse(data.List).map(e=>e.text))
+        //console.log(data.MemeID?JSON.parse(data.List).map(e=>e.image):JSON.parse(data.List).map(e=>e.text))
     }
     return <>
-        <Snackbar open={copyShown} autoHideDuration={3000} onClose={handleCopyClose}>
-            <Alert onClose={handleCopyClose} severity="success"  sx={{ width: '100%' }}>
-                Hashtag copied successfully!
-            </Alert>
-        </Snackbar>
-        <Accordion key={crypto.randomUUID()} className='dark-back' >
+
+        <Accordion key={guid()}  className='dark-back'  >
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon fontSize='large' color='secondary' />}
                 aria-controls="panel1a-content"
@@ -102,11 +134,15 @@ const Item = (props) => {
                 className='dark-back'
             >
                 <div className='main-info'>
-                    <div className='item-title'>{data.Name}</div>
+                    <div className='item-title-cont'>
+                        <span className='item-title' >{data.Name} </span>
+                        <span className='item-tag'>#{data.Hashtag} </span>
+                    </div>
+
                     <div className='button-cont' >
-                        <Button className='preview-btn' color='secondary' onClick={previewClick} variant="contained" >PREVIEW</Button>
-                        <Tooltip title="Copy this hashtag to specify which pack you want to use in game creation" arrow>
-                            <Button className='icon-btn' color='secondary' onClick={clickCopy} data-key={data.id} data-tag={data.Hashtag} startIcon={<ContentCopyIcon data-key={data.id} data-tag={data.Hashtag} />} variant="contained" >#{data.Hashtag}</Button>
+                        <Button  className='preview-btn' color='secondary' data-key={data.id} onClick={previewClick} variant="contained" >PREVIEW</Button>
+                        <Tooltip title="Add this pack to game config" arrow>
+                            <Button className='preview-btn' color='secondary' onClick={clickCopy} data-key={data.id} data-tag={data.Hashtag} startIcon={<AddBoxIcon data-key={data.id} data-tag={data.Hashtag} />} variant="contained" >SELECT</Button>
                         </Tooltip>
                         <Button className='icon-btn' color='secondary' onClick={clickLike} data-key={data.id} startIcon={getLikeIcon(data.id)} variant="contained" >{likeList.currentCount}</Button>
                     </div>

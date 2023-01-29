@@ -1,7 +1,8 @@
-@import '../styles/index.scss';
+@import '../../styles/index';
 
 .new-pack-cont {
-  margin: 30px;
+  border-radius: 4px;
+  margin: 80px 30px 30px 30px;
   padding: 10px;
   color: white;
   background-color: #151515;
@@ -147,6 +148,7 @@
   width: 100%;
   justify-content: space-around;
   height: 3rem;
+
 }
 
 .toggle-group button {
@@ -155,8 +157,9 @@
   padding: 10px 20px 10px 20px;
   font-family: 'Coiny', serif !important;
   font-style: normal !important;
+  line-height: 20px;
   font-weight: 400 !important;
-  font-size: 20px !important;
+  font-size: 16px !important;
 }
 
 .main-btn {

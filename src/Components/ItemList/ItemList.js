@@ -6,11 +6,12 @@ import Item from '../Item/Item';
 
 const ItemList = (props) => {
 
+
+
     return (
         <>
-            {props.list.map(item => <Item key={item.id} user={props.user} type={props.type} data={item} />)}
+            {props.list.map(item => <Item key={item.id} user={props.user} type={props.type} changeData={props.changeData} data={item} />)}
         </>
-
     );
 }
 export default ItemList;

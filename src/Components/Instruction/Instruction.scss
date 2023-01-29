@@ -20,11 +20,12 @@
 
 .instruction {
   text-align: center;
-  height: 80px;
+  min-height: 80px;
   font-family: 'Coiny', serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
+  padding: 5px;
 }
 
 .dots {
@@ -35,6 +36,7 @@
 }
 
 .dot {
+  min-width: 30px;
   border-radius: 100px;
   width: calc(5%);
   aspect-ratio: 1/1;

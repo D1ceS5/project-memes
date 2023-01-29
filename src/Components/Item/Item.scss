@@ -2,7 +2,21 @@
 .marged {
   margin: 10px;
 }
-
+.MuiAccordion-root{
+  color:red !important;
+}
+.item-title-cont{
+  display: flex;
+  flex-direction: column;
+}
+.item-tag {
+  padding: 0 10px;
+  min-width: 280px;
+  font-family: 'Baloo 2', serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
 .font {
 
   font-family: 'Coiny', serif !important;
@@ -17,21 +31,20 @@
 
 
 
-.option:checked {
-  background-color: #C25700;
-}
+
 
 .select:last-child {}
 
 
-ul {
-  background-color: #C25700 !important;
-}
+
 
 
 
 .dark-back {
   background-color: #C25700 !important;
+}
+.dark-back:focus{
+  background-color: rgba(194, 87, 0, 0.71) !important;
 }
 
 .item-title {
@@ -60,11 +73,12 @@ ul {
 }
 
 .preview-btn {
+
   background-color: #151515 !important;
   font-family: 'Baloo 2', serif !important;
   font-style: normal !important;
   font-weight: 400 !important;
-  margin: 5px;
+  margin: 5px 5px !important;
 }
 
 .icon-btn {

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header/Header';
 import axios from "axios";
 import configData from "../config.json";
-import CreatePage from './CreatePage/CreatePage';
-import NewPack from './NewPack/NewPack';
-import PackList from './PackList/PackList';
+import CreatePage from '../Pages/CreatePage/CreatePage';
+import NewPack from '../Pages/NewPack/NewPack';
+import PackList from '../Pages/PackList/PackList';
 import {
     Route, Routes,
 } from 'react-router-dom'
 
 import { ThemeProvider, createTheme, } from "@mui/material/styles";
 import { GlobalStyles } from '@mui/material';
+import Lobby from "../Pages/Lobby/Lobby";
 const inputGlobalStyles = <GlobalStyles styles={{ "*": { color: "#FFF !important" } }} />;
 const themeOptions = {
     palette: {
@@ -69,6 +70,7 @@ const theme = createTheme(themeOptions)
 const App = () => {
     const [player, setPlayer] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [socket,setSocket] = useState(null)
     useEffect(() => {
         if (player) return
         setLoading(true)
@@ -79,6 +81,9 @@ const App = () => {
 
     }, [player,loading])
 
+    function openSocket(data){
+        setSocket(data)
+    }
 
     console.log("MAIN USER", player.UserID)
     return (
@@ -86,8 +91,9 @@ const App = () => {
             {inputGlobalStyles}
             <Header data={player} ></Header>
             <Routes>
-                <Route path="/" element={<CreatePage />} />
+                <Route path="/" element={<CreatePage socket={socket} openSocket={openSocket} player={player} />} />
                 <Route path="/create" element={<NewPack />} />
+                <Route path="/game/:id" element={<Lobby />} />
                 <Route path="/packs" element={<PackList user={player.UserID} />} />
             </Routes>
 

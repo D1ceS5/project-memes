@@ -1,4 +1,4 @@
-@import '../styles/index.scss';
+@import '../../styles/index.scss';
 
 a:hover {
   color: #ffffffab !important;
@@ -14,11 +14,13 @@ a:hover {
   margin: 10px 0 10px 10px;
   border-radius: 4px;
   min-width: 30px;
-  width: calc(15%);
+  width: calc(10%);
 
 }
 
 .navigation {
+  position: fixed;
+  z-index: 10;
   width: 100%;
   background: $primary-light;
   box-shadow: 0 1px 4px #c257002a;
@@ -27,7 +29,6 @@ a:hover {
 .nav-container {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   height: 62px;
   width: 100%;
 }
@@ -73,6 +74,7 @@ a:hover {
 .nav-container .checkbox {
   position: absolute;
   display: none;
+
   height: 32px;
   width: 32px;
   top: 20px;
@@ -89,7 +91,7 @@ a:hover {
   position: absolute;
   top: 17px;
   left: 20px;
-  z-index: 9;
+  z-index: 14;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -157,7 +159,7 @@ a:hover {
 }
 
 .pc-menu {
-
+  align-items: center;
   display: flex;
   flex-direction: row;
 }
@@ -167,7 +169,8 @@ a:hover {
 }
 
 .navigation .menu-items {
-  z-index: 999;
+  z-index: 12;
+  position: fixed;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -175,7 +178,6 @@ a:hover {
   height: 100vh;
   padding: 40px;
   margin-left: -40px;
-  margin-top: 1000px;
   transform: translate(-150%);
   transition: transform 0.5s ease-in-out;
 
@@ -193,15 +195,17 @@ a:hover {
 @media screen and (max-width: 1000px) {
   .navigation .menu-items {
     z-index: 5;
-    width: 60%;
+    width: 90%;
+    position: fixed;
     display: none !important;
   }
 }
 
 @media screen and (max-width: 800px) {
   .navigation .menu-items {
-    z-index: 5;
-    width: 60%;
+    z-index: 12;
+    width: 90%;
+    position: fixed;
     display: flex !important;
   }
 
@@ -262,7 +266,6 @@ a:hover {
   font-family: 'Baloo 2', serif;
   font-style: normal;
   font-weight: 600;
-  width: 30%;
 }
 
 .navigation .menu-items li {

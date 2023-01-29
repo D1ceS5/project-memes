@@ -12,6 +12,7 @@ import axios from "axios";
 import { ThemeProvider } from "@mui/material/styles";
 import './NewPack.scss';
 import { ImageList, ImageListItem } from "@mui/material";
+import {guid} from "../../Utility/utils.js"
 const NewPack = () => {
     let defaultPack = {
         theme: {
@@ -35,15 +36,7 @@ const NewPack = () => {
 
     }, [editId])
 
-    let guid = () => {
-        let s4 = () => {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-        //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
+
     function handleThemeChange(e) {
         let v = e.target.value
         setTheme(v);

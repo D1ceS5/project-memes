@@ -20,7 +20,7 @@ const Instruction = () => {
         setTimer(timerNew)
         
         
-    }, [timer,index])
+    }, [index])
 
 
     function handleClick(e) {
